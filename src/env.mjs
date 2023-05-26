@@ -26,6 +26,7 @@ export const env = createEnv({
     //google
     GOOGLE_CLIENT_ID: z.string(),
     GOOGLE_CLIENT_SECRET: z.string(),
+    DALLE_API_KEY: z.string(),
   },
 
   /**
@@ -50,5 +51,6 @@ export const env = createEnv({
     DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+    DALLE_API_KEY: process.env.DALLE_API_KEY,
   },
 });

@@ -8,9 +8,9 @@ import { useState } from "react";
 import { set } from "zod";
 import {api} from "~/utils/api"; 
 import { signIn,signOut,useSession } from "next-auth/react";
+import Image from "next/image";
 
-
-const GeneratePage: NextPage = () => {
+const GeneratePage: NextPage = (props) => {
 
   const [form,setForm]=useState({
     prompt:"",
@@ -18,6 +18,8 @@ const GeneratePage: NextPage = () => {
   const [submitForm,setsubmitForm]=useState({
     prompt:"",
   })
+
+  const [imgurl,setImgurl]=useState("")
   // const changeHandler:React.ChangeEventHandler<HTMLInputElement>=(e)=>{
   //   setForm({...form,
   //     prompt:e.target.value})
@@ -31,6 +33,8 @@ const GeneratePage: NextPage = () => {
   const generateIcon = api.generate.generateIcon.useMutation({
     onSuccess(data){
       console.log('mutation finish',data)
+      if (!data.image_url) return;
+      setImgurl(data.image_url)
     }
   }
   )
@@ -57,7 +61,6 @@ const GeneratePage: NextPage = () => {
     <main className='flex flex-col min-h-screen  justify-center  items-center border-4 divide-x-4  w-200'>
     {!isLoggedIn && <Button onClick={() => signIn()}> 登入 </Button>}
     {isLoggedIn && <Button onClick={() => signOut()}> 登出 </Button>}
-    <LogInBtn/>
       <form  onSubmit={handleSubmit} className='flex flex-col gap-2'>
         <FormGroup >
           <label>prompt</label>
@@ -68,7 +71,7 @@ const GeneratePage: NextPage = () => {
 
         <button className='bg-blue-400 hover:bg-blue-600 px-4 py-2 rounded' >submit</button>
       </form>
-
+    <Image src={imgurl} alt='hello' width='1024' height='1024'></Image>
     </main>
     </>
   );

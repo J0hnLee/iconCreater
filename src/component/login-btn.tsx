@@ -1,5 +1,6 @@
-import { useSession, signIn, signOut } from "next-auth/react"
 
+import { useSession, signIn, signOut } from "next-auth/react"
+ // this is the componment of login button, it can switch by session status.
 export  function LogInBtn() {
   const { data: session } = useSession()
   if (session) {
