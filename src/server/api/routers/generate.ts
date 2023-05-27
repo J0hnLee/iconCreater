@@ -45,7 +45,6 @@ export const generateRouter = createTRPCRouter({
         message:'you do not have enough credits.'
       })
     }
-    console.log(process.env.DALLE_API_KEY)
     // make a fetch request to dalle api
     const response = await openai.createImage({
       prompt: input.prompt,
