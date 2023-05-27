@@ -1,13 +1,30 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-
 import {
   createTRPCRouter,
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-
+import {env} from "~/env.mjs"
 import { Configuration, OpenAIApi } from "openai";
+
+async function generateIcon(prompt: string): Promise<string|undefined> {
+  if (env.MOCK_DALLE==='true'){
+    return "https://picsum.photos/200/300";
+  }
+  else{
+    const response = await openai.createImage({
+      prompt,
+      n: 1,
+      size: "1024x1024",
+    })    
+    const image_url= response.data.data[0]?.url
+    return image_url;
+  }
+
+}
+
+
 
 const configuration = new Configuration({
   apiKey: process.env.DALLE_API_KEY,
@@ -46,15 +63,11 @@ export const generateRouter = createTRPCRouter({
       })
     }
     // make a fetch request to dalle api
-    const response = await openai.createImage({
-      prompt: input.prompt,
-      n: 1,
-      size: "1024x1024",
-    })    
-    const image_url= response.data.data[0]?.url
+    const url=await generateIcon(input.prompt);
 
-    return{
-        image_url:image_url,
-      };
+    return {
+      imageUrl:url
+    }
+
     })
 });

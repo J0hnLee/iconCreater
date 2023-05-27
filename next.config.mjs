@@ -8,7 +8,7 @@ await import("./src/env.mjs");
 const config = {
   reactStrictMode: true,
   images: {
-    domains: ["oaidalleapiprodscus.blob.core.windows.net"],
+    domains: ["oaidalleapiprodscus.blob.core.windows.net","upload.wikimedia.org","picsum.photos"],
   },
 
   /**

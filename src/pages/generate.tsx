@@ -5,10 +5,15 @@ import { FormGroup } from "~/component/FormGroup";
 import {Button} from "~/component/Button"
 import {LogInBtn} from "~/component/login-btn"
 import { useState } from "react";
-import { set } from "zod";
 import {api} from "~/utils/api"; 
 import { signIn,signOut,useSession } from "next-auth/react";
 import Image from "next/image";
+
+
+interface GenerateIconResponse{
+  image_url:string;
+}
+
 
 const GeneratePage: NextPage = (props) => {
 
@@ -31,10 +36,10 @@ const GeneratePage: NextPage = (props) => {
   }
 
   const generateIcon = api.generate.generateIcon.useMutation({
-    onSuccess(data){
+    onSuccess(data:GenerateIconResponse){
       console.log('mutation finish',data)
-      if (!data.image_url) return;
-      setImgurl(data.image_url)
+      if (!data.imageUrl) return;
+      setImgurl(data.imageUrl)
     }
   }
   )
@@ -71,7 +76,12 @@ const GeneratePage: NextPage = (props) => {
 
         <button className='bg-blue-400 hover:bg-blue-600 px-4 py-2 rounded' >submit</button>
       </form>
+      <div>{imgurl}</div>
+
+      
     <Image src={imgurl} alt='hello' width='1024' height='1024'></Image>
+    <Image src='https://picsum.photos/200/300' alt='hello' width='1024' height='1024'></Image>
+
     </main>
     </>
   );
