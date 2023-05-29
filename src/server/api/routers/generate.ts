@@ -17,6 +17,7 @@ async function generateIcon(prompt: string): Promise<string|undefined> {
       prompt,
       n: 1,
       size: "1024x1024",
+      response_format:'b64_json'
     })    
     const image_url= response.data.data[0]?.url
     return image_url;
@@ -43,6 +44,7 @@ export const generateRouter = createTRPCRouter({
     console.log('we are here.',input.prompt);
    // verify user have enough credit
     const {count}= await ctx.prisma.user.updateMany({
+      
       where:{ 
         id:ctx.session.user.id, 
         credits:{
@@ -64,6 +66,8 @@ export const generateRouter = createTRPCRouter({
     }
     // make a fetch request to dalle api
     const url=await generateIcon(input.prompt);
+
+    //TODO: save image to S3
 
     return {
       imageUrl:url

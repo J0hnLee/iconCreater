@@ -11,7 +11,7 @@ import Image from "next/image";
 
 
 interface GenerateIconResponse{
-  image_url:string;
+  imageUrl:string;
 }
 
 
@@ -44,9 +44,9 @@ const GeneratePage: NextPage = (props) => {
   }
   )
 
+
   const  session = useSession()
   const isLoggedIn=!!session.data
-
 
 
 
@@ -66,6 +66,7 @@ const GeneratePage: NextPage = (props) => {
     <main className='flex flex-col min-h-screen  justify-center  items-center border-4 divide-x-4  w-200'>
     {!isLoggedIn && <Button onClick={() => signIn()}> 登入 </Button>}
     {isLoggedIn && <Button onClick={() => signOut()}> 登出 </Button>}
+    
       <form  onSubmit={handleSubmit} className='flex flex-col gap-2'>
         <FormGroup >
           <label>prompt</label>
@@ -80,7 +81,6 @@ const GeneratePage: NextPage = (props) => {
 
       
     <Image src={imgurl} alt='hello' width='1024' height='1024'></Image>
-    <Image src='https://picsum.photos/200/300' alt='hello' width='1024' height='1024'></Image>
 
     </main>
     </>
