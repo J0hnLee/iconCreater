@@ -11,7 +11,7 @@ import Image from "next/image";
 
 
 interface GenerateIconResponse{
-  imageUrl:string;
+  base64Image:string;
 }
 
 
@@ -24,7 +24,7 @@ const GeneratePage: NextPage = (props) => {
     prompt:"",
   })
 
-  const [imgurl,setImgurl]=useState("")
+  const [base64Image,setbase64Img]=useState("")
   // const changeHandler:React.ChangeEventHandler<HTMLInputElement>=(e)=>{
   //   setForm({...form,
   //     prompt:e.target.value})
@@ -38,8 +38,8 @@ const GeneratePage: NextPage = (props) => {
   const generateIcon = api.generate.generateIcon.useMutation({
     onSuccess(data:GenerateIconResponse){
       console.log('mutation finish',data)
-      if (!data.imageUrl) return;
-      setImgurl(data.imageUrl)
+      if (!data.base64Image) return;
+      setbase64Img(data.base64Image)
     }
   }
   )
@@ -77,10 +77,8 @@ const GeneratePage: NextPage = (props) => {
 
         <button className='bg-blue-400 hover:bg-blue-600 px-4 py-2 rounded' >submit</button>
       </form>
-      <div>{imgurl}</div>
-
       
-    <Image src={imgurl} alt='hello' width='1024' height='1024'></Image>
+    <Image src={`data:image/jpeg;base64, ${base64Image}`} alt='hello' width='1024' height='1024'></Image>
 
     </main>
     </>
