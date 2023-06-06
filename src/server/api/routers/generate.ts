@@ -83,11 +83,21 @@ export const generateRouter = createTRPCRouter({
     // make a fetch request to dalle api
     const base64Image=await generateIcon(input.prompt);
 
+    //store data in sqlite db with prisma
+    const icon = await ctx.prisma.icon.create({
+      data:{
+        prompt:input.prompt,
+        userId:ctx.session.user.id,
+      },
+    })
+
+
+
     //TODO: save image to S3
     await s3.putObject({
       Bucket:'cruxmed-icon-generator',
       Body:Buffer.from(base64Image.replace(/^data:image\/\w+;base64,/, ""),"base64"),
-      Key:'my-png_3.png',//TODO: generate random id
+      Key:icon.id,
       ContentEncoding:"base64",
       ContentType:"image/png"
     }).promise();
